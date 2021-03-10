@@ -41,7 +41,8 @@ ExternalProject_Add(opencv_src
     -DENABLE_PRECOMPILED_HEADERS=OFF
     -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
     -DBUILD_SHARED_LIBS=ON
-    -DWITH_CUDA=OFF
+    -DWITH_CUDA=ON
+    -DBUILD_CUDA_STUBS=ON
     -DWITH_OPENCL=OFF
     -DBUILD_TESTS=OFF
     -DBUILD_opencv_ts=OFF
@@ -63,7 +64,7 @@ ExternalProject_Add(opencv_src
     -DBUILD_opencv_hdf=OFF
     -DBUILD_opencv_line_descriptor=ON
     -DBUILD_opencv_matlab=OFF
-    -DBUILD_opencv_optflow=OFF
+    -DBUILD_opencv_optflow=ON
     -DBUILD_opencv_plot=OFF
     -DBUILD_opencv_reg=OFF
     -DBUILD_opencv_rgbd=ON
