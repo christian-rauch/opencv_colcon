@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(opencv3_catkin)
+project(opencv_catkin)
 
 find_package(catkin_simple REQUIRED)
 
@@ -9,7 +9,7 @@ include(ExternalProject)
 
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
-SET(CONTRIB_NAME "opencv3_contrib")
+SET(CONTRIB_NAME "opencv_contrib")
 ExternalProject_Add(${CONTRIB_NAME}
   URL https://github.com/opencv/opencv_contrib/archive/4.5.1.zip
   URL_MD5 ddb4f64d6cf31d589a8104655d39c99b
@@ -20,9 +20,9 @@ ExternalProject_Add(${CONTRIB_NAME}
   INSTALL_COMMAND ""
 )
 
-SET(OPENCV_SRC_PATH "opencv3_src")
-SET(OPENCV_BUILD_PATH "opencv3_build")
-ExternalProject_Add(opencv3_src
+SET(OPENCV_SRC_PATH "opencv_src")
+SET(OPENCV_BUILD_PATH "opencv_build")
+ExternalProject_Add(opencv_src
   DEPENDS ${CONTRIB_NAME}
   URL https://github.com/opencv/opencv/archive/4.5.1.zip
   URL_MD5 cc13d83c3bf989b0487bb3798375ee08
@@ -110,7 +110,7 @@ set(OPENCV_INSTALLED_EXECUTABLES
 foreach(installed_file ${OPENCV_INSTALLED_EXECUTABLES})
   # Need to rename binaries as they will conflict with the binaries from
   # the ROS OpenCV package otherwise.
-  string(REPLACE opencv opencv3_catkin new_file_name ${installed_file} )
+  string(REPLACE opencv opencv_catkin new_file_name ${installed_file} )
   install(FILES ${CATKIN_DEVEL_PREFIX}/bin/${installed_file}
           RENAME ${new_file_name}
           PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE

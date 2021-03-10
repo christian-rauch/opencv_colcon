@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>opencv3_catkin</name>
+  <name>opencv_catkin</name>
   <version>4.5.1</version>
-  <description>opencv3_catkin</description>
+  <description>opencv_catkin</description>
   <maintainer email="paul.furgale@mavt.ethz.ch">Paul Furgale</maintainer>
   <author>Paul Furgale</author>
   <license>New BSD</license>
