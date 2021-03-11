@@ -1,13 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(opencv_catkin)
-
-find_package(catkin_simple REQUIRED)
-
-catkin_simple()
+project(opencv_colcon)
 
 include(ExternalProject)
-
-file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 
 SET(CONTRIB_NAME "opencv_contrib")
 ExternalProject_Add(${CONTRIB_NAME}
@@ -34,9 +28,7 @@ ExternalProject_Add(opencv_src
   CONFIGURE_COMMAND cd ../${OPENCV_BUILD_PATH} && cmake
     -DOPENCV_EXTRA_MODULES_PATH=../${CONTRIB_NAME}_src/modules .
     -DWITH_TBB=ON
-    -DBUILD_opencv_python2=ON
     -DBUILD_opencv_python3=ON
-    -DWITH_GTK_2_X=ON  # Can't use GTK3 as it links against system protobuf.
     -DWITH_PROTOBUF=OFF # Disable custom build of protobuf, since starting with OpenCV 3.4.2 a custom version of
                         # protobuf is always pulled and compiled, even if no enabled modules use it.
     -DWITH_V4L=ON
@@ -47,7 +39,7 @@ ExternalProject_Add(opencv_src
     -DWITH_OPENGL=ON
     -DWITH_VTK=ON
     -DENABLE_PRECOMPILED_HEADERS=OFF
-    -DCMAKE_INSTALL_PREFIX=${CATKIN_DEVEL_PREFIX}
+    -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
     -DBUILD_SHARED_LIBS=ON
     -DWITH_CUDA=OFF
     -DWITH_OPENCL=OFF
@@ -91,15 +83,17 @@ ExternalProject_Add(opencv_src
   INSTALL_COMMAND cd ../${OPENCV_BUILD_PATH} && make install -j8
 )
 
-install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/include/opencv4
-        DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION}
+include(GNUInstallDirs)
+
+install(DIRECTORY include/opencv4
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
         FILES_MATCHING PATTERN "*.h"
                        PATTERN "*.hpp")
-install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/lib/
-        DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+install(DIRECTORY lib/
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}
         FILES_MATCHING PATTERN "libopencv*")
-install(DIRECTORY ${CATKIN_DEVEL_PREFIX}/share/opencv4
-        DESTINATION ${CATKIN_GLOBAL_SHARE_DESTINATION})
+# install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${OPENCV_BUILD_PATH}/share/opencv4
+#         DESTINATION ${CMAKE_INSTALL_DATADIR})
 set(OPENCV_INSTALLED_EXECUTABLES
     opencv_annotation
     opencv_interactive-calibration
@@ -110,36 +104,9 @@ set(OPENCV_INSTALLED_EXECUTABLES
 foreach(installed_file ${OPENCV_INSTALLED_EXECUTABLES})
   # Need to rename binaries as they will conflict with the binaries from
   # the ROS OpenCV package otherwise.
-  string(REPLACE opencv opencv_catkin new_file_name ${installed_file} )
-  install(FILES ${CATKIN_DEVEL_PREFIX}/bin/${installed_file}
+  string(REPLACE opencv opencv_colcon new_file_name ${installed_file} )
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${OPENCV_BUILD_PATH}/bin/${installed_file}
           RENAME ${new_file_name}
           PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-          DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})
+          DESTINATION ${CMAKE_INSTALL_BINDIR})
 endforeach()
-
-cs_export(INCLUDE_DIRS ${CATKIN_DEVEL_PREFIX}/include
-          LIBRARIES opencv_aruco
-                    opencv_calib3d
-                    opencv_core
-                    opencv_features2d
-                    opencv_flann
-                    opencv_highgui
-                    opencv_imgcodecs
-                    opencv_imgproc
-                    opencv_line_descriptor
-                    opencv_ml
-                    opencv_objdetect
-                    opencv_phase_unwrapping
-                    opencv_photo
-                    opencv_rgbd
-                    opencv_saliency
-                    opencv_shape
-                    opencv_stitching
-                    opencv_superres
-                    opencv_video
-                    opencv_videoio
-                    opencv_videostab
-                    opencv_viz
-                    opencv_xfeatures2d
-                    opencv_ximgproc
-)

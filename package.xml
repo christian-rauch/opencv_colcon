@@ -1,13 +1,12 @@
 <?xml version="1.0"?>
 <package>
-  <name>opencv_catkin</name>
+  <name>opencv_colcon</name>
   <version>4.5.1</version>
-  <description>opencv_catkin</description>
+  <description>OpenCV colcon wrapper </description>
   <maintainer email="paul.furgale@mavt.ethz.ch">Paul Furgale</maintainer>
   <author>Paul Furgale</author>
   <license>New BSD</license>
 
-  <buildtool_depend>catkin</buildtool_depend>
-  <buildtool_depend>catkin_simple</buildtool_depend>
+  <buildtool_depend>colcon</buildtool_depend>
 
 </package>
