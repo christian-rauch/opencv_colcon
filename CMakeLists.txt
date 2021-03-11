@@ -79,8 +79,8 @@ ExternalProject_Add(opencv_src
     -DBUILD_opencv_xobjdetect=OFF
     -DBUILD_opencv_nonfree=OFF
     -DBUILD_opencv_xphoto=OFF ../${OPENCV_SRC_PATH}
-  BUILD_COMMAND cd ../${OPENCV_BUILD_PATH} && make -j8
-  INSTALL_COMMAND cd ../${OPENCV_BUILD_PATH} && make install -j8
+  BUILD_COMMAND cd ../${OPENCV_BUILD_PATH} && make -j12
+  INSTALL_COMMAND cd ../${OPENCV_BUILD_PATH} && make install -j12
 )
 
 include(GNUInstallDirs)
